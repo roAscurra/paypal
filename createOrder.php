@@ -14,6 +14,9 @@ $createOrderEndpoint = '/v2/checkout/orders';
 // URL completa para la solicitud
 $createOrderUrl = $baseUrl . $createOrderEndpoint;
 
+// Obtiene el monto del cuerpo de la solicitud
+$amount = json_decode(file_get_contents('php://input'), true)['amount'];
+
 // Configura las opciones de la solicitud
 $options = [
     'http' => [
@@ -28,7 +31,7 @@ $options = [
                 [
                     'amount' => [
                         'currency_code' => 'USD',
-                        'value' => '100.00',
+                        'value' => $amount,
                     ],
                 ],
             ],

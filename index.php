@@ -41,21 +41,9 @@
             alert("Usted canceló su pago");
         },
         onApprove: function(data, actions) {
-            return fetch('captureOrder.php', { 
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    orderID: data.orderID
-                }),
-            }).then(function(res) {
-                return res.json();
-            }).then(function(captureData) {
-                // Manejar la respuesta de la captura según tus necesidades
-                console.log('Capture result', captureData);
-                alert('Order captured successfully!');
-            });
+            actions.order.capture().then(function(details){
+                console.log(details)
+            })
         }
 
     }).render('#paypal-button-container');
