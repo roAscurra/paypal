@@ -13,6 +13,7 @@ $createOrderEndpoint = '/v2/checkout/orders';
 
 // URL completa para la solicitud
 $createOrderUrl = $baseUrl . $createOrderEndpoint;
+
 // Configura las opciones de la solicitud
 $options = [
     'http' => [
@@ -27,13 +28,14 @@ $options = [
                 [
                     'amount' => [
                         'currency_code' => 'USD',
-                        'value' => '10.00', // Reemplaza con el monto correcto
+                        'value' => '100.00',
                     ],
                 ],
             ],
         ]),
     ],
 ];
+
 
 // Crea el contexto de la solicitud
 $context = stream_context_create($options);

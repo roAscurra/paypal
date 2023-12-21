@@ -17,17 +17,44 @@
 <script src="https://www.paypal.com/sdk/js?client-id=AezMuAOhAZTiZeWUHNK_8hRhLPXXqgs-uEB6eE9vdvaX_YLUzT8mD0ZLV4-boS8DnDK5QXiWMua7xcgI"></script>
 
 <script>
+    var amount = 200;
     // Render the PayPal button into #paypal-button-container
     paypal.Buttons({
 
         // Call your server to set up the transaction
         createOrder: function(data, actions) {
             return fetch('createOrder.php', {
-                method: 'post'
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    amount: amount,
+                }),
             }).then(function(res) {
                 return res.json();
             }).then(function(orderData) {
                 return orderData.id;
+            });
+        },
+        onCancel: function(data){
+            alert("Usted canceló su pago");
+        },
+        onApprove: function(data, actions) {
+            return fetch('captureOrder.php', { 
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    orderID: data.orderID
+                }),
+            }).then(function(res) {
+                return res.json();
+            }).then(function(captureData) {
+                // Manejar la respuesta de la captura según tus necesidades
+                console.log('Capture result', captureData);
+                alert('Order captured successfully!');
             });
         }
 
